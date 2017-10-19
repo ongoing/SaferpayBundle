@@ -66,7 +66,7 @@ class Client
     {
         $requestData = $this->saferpayDataHelper->buildPayInitObj($payInitParameter);
 
-        $response = $this->sendApiRequest($this->saferpayDataHelper->getPayInitUrl(), $requestData);
+        $response = $this->sendApiRequest($this->saferpayDataHelper->getPaymentPageInitUrl(), $requestData);
         $responseData = $this->saferpayDataHelper->getDataFromResponse($response);
 
         // use field TrackingId to keep track of the returned Token
@@ -86,7 +86,7 @@ class Client
     {
         $requestData = $this->saferpayDataHelper->buildPayConfirmObj($transaction->getTrackingId());
 
-        $response = $this->sendApiRequest($this->saferpayDataHelper->getPayConfirmUrl(), $requestData);
+        $response = $this->sendApiRequest($this->saferpayDataHelper->getPaymentPageAuthorizeUrl(), $requestData);
         $responseData = $this->saferpayDataHelper->getDataFromResponse($response);
 
         if (null == $payConfirmParameter) {
@@ -164,7 +164,7 @@ class Client
 
         $requestData = $this->saferpayDataHelper->buildPayCompleteObj($payCompleteParameter['id']);
 
-        $response = $this->sendApiRequest($this->saferpayDataHelper->getPayCompleteUrl(), $requestData);
+        $response = $this->sendApiRequest($this->saferpayDataHelper->getTransactionCaptureUrl(), $requestData);
 
         if (null == $payCompleteResponse) {
             $payCompleteResponse = array();

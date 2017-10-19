@@ -35,21 +35,36 @@ interface SaferpayDataHelperInterface
      * @return string
      */
     public function tryGetErrorInfoFromResponse(Response $response);
+    
+    /**
+     * @return string
+     */
+    public function getTransactionInitUrl();
 
     /**
      * @return string
      */
-    public function getPayInitUrl();
+    public function getTransactionAuthorizeUrl();
 
     /**
      * @return string
      */
-    public function getPayConfirmUrl();
+    public function getTransactionAuthorizeDirectUrl();
 
     /**
      * @return string
      */
-    public function getPayCompleteUrl();
+    public function getTransactionCaptureUrl();
+
+    /**
+     * @return string
+     */
+    public function getPaymentPageInitUrl();
+
+    /**
+     * @return string
+     */
+    public function getPaymentPageAuthorizeUrl();
 
     /**
      * @return array

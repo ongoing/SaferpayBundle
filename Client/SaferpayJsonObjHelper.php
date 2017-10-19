@@ -32,21 +32,6 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
     /**
      * @var string
      */
-    protected $paymentPageInitializeUrl;
-
-    /**
-     * @var string
-     */
-    protected $paymentPageAssertUrl;
-
-    /**
-     * @var string
-     */
-    protected $transactionCaptureUrl;
-
-    /**
-     * @var string
-     */
     protected $contentTypeHeader;
 
     /**
@@ -55,27 +40,32 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
     protected $acceptHeader;
 
     /**
+     * @var array
+     */
+    private $paymentUrls;
+
+    /**
+     * @var string
+     */
+    private $baseUrl;
+
+    /**
      * SaferpayJsonObjHelper constructor.
      * @param JsonAuthenticationStrategy $authenticationStrategy
      * @param string $baseUrl
-     * @param string $paymentPageInitializeUrl
-     * @param string $paymentPageAssertUrl
-     * @param string $transactionCaptureUrl
+     * @param array $paymentUrls
      * @param string $contentTypeHeader
      * @param string $acceptHeader
      */
     function __construct(JsonAuthenticationStrategy $authenticationStrategy,
                          $baseUrl,
-                         $paymentPageInitializeUrl,
-                         $paymentPageAssertUrl,
-                         $transactionCaptureUrl,
+                         $paymentUrls,
                          $contentTypeHeader,
                          $acceptHeader)
     {
         $this->authenticationStrategy = $authenticationStrategy;
-        $this->paymentPageInitializeUrl = $baseUrl . $paymentPageInitializeUrl;
-        $this->paymentPageAssertUrl = $baseUrl . $paymentPageAssertUrl;
-        $this->transactionCaptureUrl = $baseUrl . $transactionCaptureUrl;
+        $this->paymentUrls = $paymentUrls;
+        $this->baseUrl = $baseUrl;
         $this->contentTypeHeader = $contentTypeHeader;
         $this->acceptHeader = $acceptHeader;
     }
@@ -138,31 +128,6 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
         }
         return $errorInfo;
     }
-
-    /**
-     * @return string
-     */
-    public function getPayInitUrl()
-    {
-        return $this->paymentPageInitializeUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPayConfirmUrl()
-    {
-        return $this->paymentPageAssertUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPayCompleteUrl()
-    {
-        return $this->transactionCaptureUrl;
-    }
-
 
     /**
      * @return array
@@ -256,5 +221,74 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
             'RequestId' => Uuid::uuid(),
             'RetryIndicator' => self::RETRY_INDICATOR
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionInitUrl()
+    {
+        if (isset($this->paymentUrls['transaction']['initialize'])){
+            return $this->getApiUrl($this->paymentUrls['transaction']['initialize']);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionAuthorizeUrl()
+    {
+        if (isset($this->paymentUrls['transaction']['authorize'])){
+            return $this->getApiUrl($this->paymentUrls['transaction']['authorize']);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionAuthorizeDirectUrl()
+    {
+        if (isset($this->paymentUrls['transaction']['authorize_direct'])){
+            return $this->getApiUrl($this->paymentUrls['transaction']['authorize_direct']);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionCaptureUrl()
+    {
+        if (isset($this->paymentUrls['transaction']['capture'])){
+            return $this->getApiUrl($this->paymentUrls['transaction']['capture']);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentPageInitUrl()
+    {
+        if (isset($this->paymentUrls['payment_page']['initialize'])){
+            return $this->getApiUrl($this->paymentUrls['payment_page']['initialize']);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentPageAuthorizeUrl()
+    {
+        if (isset($this->paymentUrls['payment_page']['assert'])){
+            return $this->getApiUrl($this->paymentUrls['payment_page']['assert']);
+        }
+    }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    protected function getApiUrl($path)
+    {
+        return $this->baseUrl.$path;
     }
 }

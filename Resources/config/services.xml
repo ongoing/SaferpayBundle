@@ -13,9 +13,18 @@
         <parameter key="ongoing_payment_saferpay.saferpayjsonobjhelper.class">Ongoing\Payment\SaferpayBundle\Client\SaferpayJsonObjHelper</parameter>
         <parameter key="ongoing_payment_saferpay.jsonapi.baseurl.prod">https://www.saferpay.com/api/Payment/v1</parameter>
         <parameter key="ongoing_payment_saferpay.jsonapi.baseurl.test">https://test.saferpay.com/api/Payment/v1</parameter>
-        <parameter key="ongoing_payment_saferpay.jsonapi.paymentpage.initialize">/PaymentPage/Initialize</parameter>
-        <parameter key="ongoing_payment_saferpay.jsonapi.paymentpage.assert">/PaymentPage/Assert</parameter>
-        <parameter key="ongoing_payment_saferpay.jsonapi.transaction.capture">/Transaction/Capture</parameter>
+        <parameter key="ongoing_payment_saferpay.jsonapi.paymentpage.urls" type="collection">
+            <parameter key="payment_page" type="collection">
+                <parameter key="initialize">/PaymentPage/Initialize</parameter>
+                <parameter key="assert">/PaymentPage/Assert</parameter>
+            </parameter>
+            <parameter key="transaction" type="collection">
+                <parameter key="initialize">/Transaction/Initialize</parameter>
+                <parameter key="authorize">/Transaction/Authorize</parameter>
+                <parameter key="capture">/Transaction/Capture</parameter>
+                <parameter key="authorize_direct">/Transaction/AuthorizeDirect</parameter>
+            </parameter>
+        </parameter>
         <parameter key="ongoing_payment_saferpay.jsonapi.contenttypeheader">application/json; charset=UTF-8</parameter>
         <parameter key="ongoing_payment_saferpay.jsonapi.acceptheader">application/json</parameter>
     </parameters>
@@ -31,12 +40,8 @@
 
         <service id="ongoing_payment_saferpay.saferpayjsonobjhelper" class="%ongoing_payment_saferpay.saferpayjsonobjhelper.class%">
             <argument type="service" id="ongoing_payment_saferpay.authentication_strategy" />
-
             <argument type="string">%ongoing_payment_saferpay.jsonapi.baseurl%</argument>
-            <argument type="string">%ongoing_payment_saferpay.jsonapi.paymentpage.initialize%</argument>
-            <argument type="string">%ongoing_payment_saferpay.jsonapi.paymentpage.assert%</argument>
-            <argument type="string">%ongoing_payment_saferpay.jsonapi.transaction.capture%</argument>
-
+            <argument>%ongoing_payment_saferpay.jsonapi.paymentpage.urls%</argument>
             <argument type="string">%ongoing_payment_saferpay.jsonapi.contenttypeheader%</argument>
             <argument type="string">%ongoing_payment_saferpay.jsonapi.acceptheader%</argument>
         </service>
