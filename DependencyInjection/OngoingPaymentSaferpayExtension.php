@@ -1,6 +1,6 @@
 <?php
 
-namespace Valiton\Payment\SaferpayBundle\DependencyInjection;
+namespace Ongoing\Payment\SaferpayBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class ValitonPaymentSaferpayExtension extends Extension
+class OngoingPaymentSaferpayExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -23,7 +23,7 @@ class ValitonPaymentSaferpayExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         foreach($config as $param => $value) {
-            $container->setParameter('valiton_payment_saferpay.' . $param, $value);
+            $container->setParameter('ongoing_payment_saferpay.' . $param, $value);
         }
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -31,11 +31,11 @@ class ValitonPaymentSaferpayExtension extends Extension
 
         if ($config['saferpay_test']) {
             $container->setParameter(
-                'valiton_payment_saferpay.jsonapi.baseurl',
-                $container->getParameter('valiton_payment_saferpay.jsonapi.baseurl.test')
+                'ongoing_payment_saferpay.jsonapi.baseurl',
+                $container->getParameter('ongoing_payment_saferpay.jsonapi.baseurl.test')
             );
         } else {
-            $container->setParameter('valiton_payment_saferpay.jsonapi.baseurl', $container->getParameter('valiton_payment_saferpay.jsonapi.baseurl.prod'));
+            $container->setParameter('ongoing_payment_saferpay.jsonapi.baseurl', $container->getParameter('ongoing_payment_saferpay.jsonapi.baseurl.prod'));
         }
     }
 }

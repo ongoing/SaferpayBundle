@@ -6,10 +6,10 @@
  * Time: 13:59
  */
 
-namespace Valiton\Payment\SaferpayBundle\Client;
+namespace Ongoing\Payment\SaferpayBundle\Client;
 
 
-use Valiton\Payment\SaferpayBundle\Client\Authentication\JsonAuthenticationStrategy;
+use Ongoing\Payment\SaferpayBundle\Client\Authentication\JsonAuthenticationStrategy;
 use Guzzle\Http\Message\Response;
 use Faker\Provider\Uuid;
 

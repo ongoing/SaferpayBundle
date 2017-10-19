@@ -1,6 +1,6 @@
 <?php
 
-namespace Valiton\Payment\SaferpayBundle\Plugin;
+namespace Ongoing\Payment\SaferpayBundle\Plugin;
 
 use JMS\Payment\CoreBundle\Plugin\Exception\FinancialException;
 use JMS\Payment\CoreBundle\Plugin\PluginInterface;
@@ -13,8 +13,8 @@ use JMS\Payment\CoreBundle\Model\PaymentInterface;
 use JMS\Payment\CoreBundle\Plugin\AbstractPlugin;
 use JMS\Payment\CoreBundle\Plugin\Exception\Action\VisitUrl;
 use JMS\Payment\CoreBundle\Plugin\Exception\ActionRequiredException;
-use Valiton\Payment\SaferpayBundle\Client\Client;
-use Valiton\Payment\SaferpayBundle\Utils\SaferpayFormatHelper;
+use Ongoing\Payment\SaferpayBundle\Client\Client;
+use Ongoing\Payment\SaferpayBundle\Utils\SaferpayFormatHelper;
 
 /**
  * SaferpayPlugin
@@ -24,7 +24,7 @@ use Valiton\Payment\SaferpayBundle\Utils\SaferpayFormatHelper;
  */
 class SaferpayPlugin extends AbstractPlugin
 {
-    const PAYMENT_SYSTEM_NAME = 'saferpay';
+    const PAYMENT_SYSTEM_NAME = 'saferpay_checkout';
 
     const SIGNS = '0123456789abcdefghijklmnopqrstuvwxyz';
 

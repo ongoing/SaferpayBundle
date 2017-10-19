@@ -1,11 +1,11 @@
 <?php
 
-namespace Valiton\Payment\SaferpayBundle\Client;
+namespace Ongoing\Payment\SaferpayBundle\Client;
 
 
 use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
 use Psr\Log\LoggerInterface;
-use Valiton\Payment\SaferpayBundle\Client\Authentication\AuthenticationStrategyInterface;
+use Ongoing\Payment\SaferpayBundle\Client\Authentication\AuthenticationStrategyInterface;
 
 
 /**

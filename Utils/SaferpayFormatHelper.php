@@ -1,6 +1,6 @@
 <?php
 
-namespace Valiton\Payment\SaferpayBundle\Utils;
+namespace Ongoing\Payment\SaferpayBundle\Utils;
 
 /**
  * SaferpayFormatHelper

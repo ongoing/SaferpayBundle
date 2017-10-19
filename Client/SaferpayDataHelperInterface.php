@@ -1,6 +1,6 @@
 <?php
 
-namespace Valiton\Payment\SaferpayBundle\Client;
+namespace Ongoing\Payment\SaferpayBundle\Client;
 
 use Guzzle\Http\Message\Response;
 

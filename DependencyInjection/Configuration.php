@@ -1,6 +1,6 @@
 <?php
 
-namespace Valiton\Payment\SaferpayBundle\DependencyInjection;
+namespace Ongoing\Payment\SaferpayBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('valiton_payment_saferpay')
+        $treeBuilder->root('ongoing_payment_saferpay')
             ->children()
                 ->scalarNode('account')->isRequired()->end()
                 ->scalarNode('jsonapi_key')->isRequired()->end()
