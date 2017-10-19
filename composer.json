@@ -1,5 +1,5 @@
 {
-    "name": "valiton/saferpay-bundle",
+    "name": "ongoing/saferpay-bundle",
     "description": "Symfony2 bundle for providing access to Saferpay. This is an extension to the JMSCorePaymentBundle.",
     "type": "symfony-bundle",
     "keywords": ["payment","saferpay"],
@@ -9,6 +9,10 @@
         {
             "name": "Sven Cludius",
             "email": "sven.cludius@valiton.com"
+        },
+        {
+            "name": "Frederik Trostorf",
+            "email": "frederik.trostorf@ongoing.ch"
         }
     ],
     "require": {
@@ -16,9 +20,14 @@
         "symfony/framework-bundle": "~2.1",
         "jms/payment-core-bundle": "~1.0"
     },
-    "autoload": {
-        "psr-0": { "Valiton\\Payment\\SaferpayBundle": "" }
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     },
-    "target-dir": "Valiton/Payment/SaferpayBundle"
+    "autoload": {
+        "psr-0": { "Ongoing\\Payment\\SaferpayBundle": "" }
+    },
+    "target-dir": "Ongoing/Payment/SaferpayBundle"
 }
 
