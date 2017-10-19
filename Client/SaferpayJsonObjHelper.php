@@ -169,10 +169,15 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
         );
 
         if (isset($data['cardrefid'])) {
-            if ('new' == $data['cardrefid']) {
-                $jsonData['RegisterAlias'] = array('IdGenerator' => 'RANDOM');
-            } else {
-                $jsonData['RegisterAlias'] = array('IdGenerator' => 'MANUAL', 'Id' => $data['cardrefid']);
+            switch ($data['cardrefid']){
+                case 'new':
+                    $jsonData['RegisterAlias'] = array('IdGenerator' => 'RANDOM');
+                    break;
+                case 'random_unique':
+                    $jsonData['RegisterAlias'] = array('IdGenerator' => 'RANDOM_UNIQUE');
+                    break;
+                default:
+                    $jsonData['RegisterAlias'] = array('IdGenerator' => 'MANUAL', 'Id' => $data['cardrefid']);
             }
         }
 

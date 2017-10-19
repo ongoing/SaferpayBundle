@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('error_url')->defaultNull()->end()
                 ->scalarNode('cancel_url')->defaultNull()->end()
                 ->booleanNode('saferpay_test')->defaultTrue()->end()
-                ->enumNode('cardrefid')->values(array('new', 'random'))->defaultValue('new')->end()
+                ->enumNode('cardrefid')->values(array('new', 'random', 'random_unique'))->defaultValue('new')->end()
                 ->scalarNode('cardrefid_prefix')->defaultNull()->end()
                 ->scalarNode('cardrefid_length')->defaultValue(40)->end()
             ->end()

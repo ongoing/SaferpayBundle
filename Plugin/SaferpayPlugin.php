@@ -257,7 +257,7 @@ class SaferpayPlugin extends AbstractPlugin
                 }
             }
         } else {
-            $cardrefid = 'new';
+            $cardrefid = $this->cardrefid;
         }
         $payInitParameter['cardrefid'] = $cardrefid;
         foreach ($checkoutParameters as $field => $value) {
