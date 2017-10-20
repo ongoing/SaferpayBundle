@@ -89,6 +89,15 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
     }
 
     /**
+     * @param array $data
+     * @return mixed
+     */
+    public function buildTransactionInitObject(array $data)
+    {
+        return $this->doBuildTransactionInitObject($data);
+    }
+
+    /**
      * @param string $transactionId
      * @return string
      */
@@ -144,7 +153,7 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
      * @param array $data
      * @return string
      */
-    protected function  doBuildPaymentPageInitObject(array $data)
+    protected function doBuildPaymentPageInitObject(array $data)
     {
         $jsonData = array(
             'RequestHeader' => $this->buildRequestHeader(),
@@ -213,6 +222,50 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
         ));
 
         return $jsonData;
+    }
+
+    /**
+     * @param $data
+     * @return string
+     */
+    protected function doBuildTransactionInitObject($data)
+    {
+        $jsonData = array(
+            'RequestHeader' => $this->buildRequestHeader(),
+            'TerminalId' => $this->authenticationStrategy->getTerminalId(),
+            'Payment' => array(
+                'Amount' => array(
+                    'Value' => $data['amount'],
+                    'CurrencyCode' => $data['currency']
+                ),
+
+                'OrderId' => $data['orderid'],
+                'Description' => $data['description']
+            ),
+
+            'ReturnUrls' => array(
+                'Success' => $data['successlink'],
+                'Fail' => $data['faillink'],
+                'Abort' => $data['backlink']
+            ),
+            'Payer' => array(
+                'LanguageCode' => $data['languagecode'],
+                'DeliveryAddress' => array(
+                    'FirstName' => $data['firstname'],
+                    'LastName' => $data['lastname'],
+                    'Street' => $data['street'],
+                    'Zip' => $data['zip'],
+                    'City' => $data['city']
+                )
+            ),
+            'PaymentMeans' => array(
+                'Alias' => array(
+                    'Id' => $data[Client::ALIAS_DATA_KEY]
+                )
+            )
+        );
+
+        return json_encode($jsonData);
     }
 
     /**

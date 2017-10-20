@@ -3,6 +3,7 @@
 namespace Ongoing\Payment\SaferpayBundle\Client;
 
 
+use JMS\Payment\CoreBundle\Model\ExtendedDataInterface;
 use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
 use Psr\Log\LoggerInterface;
 use Ongoing\Payment\SaferpayBundle\Client\Authentication\AuthenticationStrategyInterface;
@@ -25,6 +26,8 @@ class Client
     const PAY_CONFIRM_PARAM_ID = 'ID';
     const PAY_CONFIRM_PARAM_AMOUNT = 'AMOUNT';
     const PAY_CONFIRM_PARAM_ACTION = 'ACTION';
+
+    const ALIAS_DATA_KEY = 'creditcard_alias';
 
     /**
      * @var AuthenticationStrategyInterface
@@ -64,6 +67,45 @@ class Client
      */
     public function createPayInit(array $payInitParameter, FinancialTransactionInterface $transaction)
     {
+        /** @var ExtendedDataInterface $data */
+        $data = $transaction->getExtendedData();
+
+        if ($data->has(self::ALIAS_DATA_KEY))
+        {
+            return $this->createTransactionInit(
+                array_merge($payInitParameter, [self::ALIAS_DATA_KEY => $data->get(self::ALIAS_DATA_KEY)]),
+                $transaction
+            );
+        } else {
+            return $this->createPaymentPageInit($payInitParameter, $transaction);
+        }
+    }
+
+    /**
+     * @param array $payInitParameter
+     * @param FinancialTransactionInterface $transaction
+     * @return mixed
+     */
+    protected function createTransactionInit(array $payInitParameter, FinancialTransactionInterface $transaction)
+    {
+        $requestData = $this->saferpayDataHelper->buildTransactionInitObject($payInitParameter);
+
+        $response = $this->sendApiRequest($this->saferpayDataHelper->getTransactionInitUrl(), $requestData);
+        $responseData = $this->saferpayDataHelper->getDataFromResponse($response);
+
+        // use field TrackingId to keep track of the returned Token
+        $transaction->setTrackingId($responseData['Token']);
+
+        return $responseData['Redirect']['RedirectUrl'];
+    }
+
+    /**
+     * @param array $payInitParameter
+     * @param FinancialTransactionInterface $transaction
+     * @return mixed
+     */
+    protected function createPaymentPageInit(array $payInitParameter, FinancialTransactionInterface $transaction)
+    {
         $requestData = $this->saferpayDataHelper->buildPaymentPageInitObject($payInitParameter);
 
         $response = $this->sendApiRequest($this->saferpayDataHelper->getPaymentPageInitUrl(), $requestData);
@@ -86,7 +128,11 @@ class Client
     {
         $requestData = $this->saferpayDataHelper->buildPaymentPageAssertObject($transaction->getTrackingId());
 
-        $response = $this->sendApiRequest($this->saferpayDataHelper->getPaymentPageAssertUrl(), $requestData);
+        $cofirmUrl = $transaction->getExtendedData()->has(self::ALIAS_DATA_KEY) ?
+            $this->saferpayDataHelper->getTransactionAuthorizeUrl() : $this->saferpayDataHelper->getPaymentPageAssertUrl();
+
+        $response = $this->sendApiRequest($cofirmUrl, $requestData);
+
         $responseData = $this->saferpayDataHelper->getDataFromResponse($response);
 
         if (null == $payConfirmParameter) {

@@ -118,6 +118,7 @@ class SaferpayPlugin extends AbstractPlugin
         $data = $transaction->getExtendedData();
         $payInitParameter = $this->createPayInitParameter($transaction);
 
+
         if ($transaction->getTrackingId()) {
             try {
                 $payConfirmParameter = $this->client->verifyPayConfirm($transaction);
