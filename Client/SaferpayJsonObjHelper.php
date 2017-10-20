@@ -349,4 +349,41 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
     {
         return $this->baseUrl.$path;
     }
+
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function buildTransactionAuthorizeDirectObject(array $data)
+    {
+        $jsonData = array(
+            'RequestHeader' => $this->buildRequestHeader(),
+            'TerminalId' => $this->authenticationStrategy->getTerminalId(),
+            'Payment' => array(
+                'Amount' => array(
+                    'Value' => $data['amount'],
+                    'CurrencyCode' => $data['currency']
+                ),
+
+                'OrderId' => $data['orderid'], // optional
+                'Description' => $data['description']
+            ),
+            'Payer' => array(
+                'LanguageCode' => $data['languagecode'],
+                'DeliveryAddress' => array(
+                    'FirstName' => $data['firstname'],
+                    'LastName' => $data['lastname'],
+                    'Street' => $data['street'],
+                    'Zip' => $data['zip'],
+                    'City' => $data['city']
+                )
+            ),
+            'PaymentMeans' => array(
+                'Alias' => array('id' => $data['alias'])
+            )
+        );
+
+
+        return json_encode($jsonData);
+    }
 }

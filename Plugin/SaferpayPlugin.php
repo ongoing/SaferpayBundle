@@ -69,6 +69,11 @@ class SaferpayPlugin extends AbstractPlugin
     protected $request;
 
     /**
+     * @var bool
+     */
+    private $authorizeDirect = false;
+
+    /**
      * Constructor
      *
      * @param Client $client
@@ -78,8 +83,9 @@ class SaferpayPlugin extends AbstractPlugin
      * @param $cardrefid
      * @param $cardrefidPrefix
      * @param $cardrefidLength
+     * @param $authorizeDirect
      */
-    public function __construct(Client $client, $returnUrl, $errorUrl, $cancelUrl, $cardrefid, $cardrefidPrefix, $cardrefidLength)
+    public function __construct(Client $client, $returnUrl, $errorUrl, $cancelUrl, $cardrefid, $cardrefidPrefix, $cardrefidLength, $authorizeDirect)
     {
         $this->client = $client;
         $this->returnUrl = $returnUrl;
@@ -88,6 +94,7 @@ class SaferpayPlugin extends AbstractPlugin
         $this->cardrefid = $cardrefid;
         $this->cardrefidPrefix = $cardrefidPrefix;
         $this->cardrefidLength = min(40, $cardrefidLength);
+        $this->authorizeDirect = $authorizeDirect;
     }
 
     /**
@@ -117,6 +124,14 @@ class SaferpayPlugin extends AbstractPlugin
     {
         $data = $transaction->getExtendedData();
         $payInitParameter = $this->createPayInitParameter($transaction);
+
+        //check for alias and if an authorize direct should be done (no 2nd secure like 3ds)
+        if ($transaction->getExtendedData()->has(Client::ALIAS_DATA_KEY) && $this->authorizeDirect && $transaction->getResponseCode() != PluginInterface::RESPONSE_CODE_SUCCESS){
+            //do direct authorization
+            $payInitParameter['alias'] = $transaction->getExtendedData()->get(Client::ALIAS_DATA_KEY);
+            $this->client->createAuthorizeDirect($payInitParameter, $transaction);
+            return;
+        }
 
 
         if ($transaction->getTrackingId()) {

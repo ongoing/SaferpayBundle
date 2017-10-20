@@ -64,6 +64,7 @@
             <argument>%ongoing_payment_saferpay.cardrefid%</argument>
             <argument>%ongoing_payment_saferpay.cardrefid_prefix%</argument>
             <argument>%ongoing_payment_saferpay.cardrefid_length%</argument>
+            <argument>%ongoing_payment_saferpay.authorize_direct%</argument>
             <!-- Note: Inject request to enable fetching saferpay response sending to redirect url directly
                 In Symfony 2.4 we have to inject request stack -->
             <call method="setRequest">

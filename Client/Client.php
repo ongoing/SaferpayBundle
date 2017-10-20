@@ -5,6 +5,7 @@ namespace Ongoing\Payment\SaferpayBundle\Client;
 
 use JMS\Payment\CoreBundle\Model\ExtendedDataInterface;
 use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
+use JMS\Payment\CoreBundle\Plugin\PluginInterface;
 use Psr\Log\LoggerInterface;
 use Ongoing\Payment\SaferpayBundle\Client\Authentication\AuthenticationStrategyInterface;
 
@@ -115,6 +116,28 @@ class Client
         $transaction->setTrackingId($responseData['Token']);
 
         return $responseData['RedirectUrl'];
+    }
+
+    /**
+     * @param array $parameter
+     * @param FinancialTransactionInterface $transaction
+     */
+    public function createAuthorizeDirect(array $parameter, FinancialTransactionInterface $transaction)
+    {
+        $requestData = $this->saferpayDataHelper->buildTransactionAuthorizeDirectObject($parameter);
+
+        $response = $this->sendApiRequest($this->saferpayDataHelper->getTransactionAuthorizeDirectUrl(), $requestData);
+        $responseData = $this->saferpayDataHelper->getDataFromResponse($response);
+
+        $payConfirmParameter['id'] = $responseData['Transaction']['Id'];
+        $payConfirmParameter['amount'] = $responseData['Transaction']['Amount']['Value'];
+        $payConfirmParameter['currency'] = $responseData['Transaction']['Amount']['CurrencyCode'];
+        $payConfirmParameter['token'] = $transaction->getTrackingId();
+        
+        $transaction->setReferenceNumber($payConfirmParameter['id']);
+        $transaction->setProcessedAmount($transaction->getRequestedAmount());
+        $transaction->setResponseCode(PluginInterface::RESPONSE_CODE_SUCCESS);
+        $transaction->setReasonCode(PluginInterface::REASON_CODE_SUCCESS);
     }
 
     /**

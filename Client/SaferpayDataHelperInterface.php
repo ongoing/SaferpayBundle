@@ -19,6 +19,12 @@ interface SaferpayDataHelperInterface
     public function buildTransactionInitObject(array $data);
 
     /**
+     * @param array $data
+     * @return mixed
+     */
+    public function buildTransactionAuthorizeDirectObject(array $data);
+
+    /**
      * @param string $token
      * @return string
      */
