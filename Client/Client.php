@@ -64,7 +64,7 @@ class Client
      */
     public function createPayInit(array $payInitParameter, FinancialTransactionInterface $transaction)
     {
-        $requestData = $this->saferpayDataHelper->buildPayInitObj($payInitParameter);
+        $requestData = $this->saferpayDataHelper->buildPaymentPageInitObject($payInitParameter);
 
         $response = $this->sendApiRequest($this->saferpayDataHelper->getPaymentPageInitUrl(), $requestData);
         $responseData = $this->saferpayDataHelper->getDataFromResponse($response);
@@ -84,9 +84,9 @@ class Client
      */
     public function verifyPayConfirm(FinancialTransactionInterface $transaction, array $payConfirmParameter = null)
     {
-        $requestData = $this->saferpayDataHelper->buildPayConfirmObj($transaction->getTrackingId());
+        $requestData = $this->saferpayDataHelper->buildPaymentPageAssertObject($transaction->getTrackingId());
 
-        $response = $this->sendApiRequest($this->saferpayDataHelper->getPaymentPageAuthorizeUrl(), $requestData);
+        $response = $this->sendApiRequest($this->saferpayDataHelper->getPaymentPageAssertUrl(), $requestData);
         $responseData = $this->saferpayDataHelper->getDataFromResponse($response);
 
         if (null == $payConfirmParameter) {
@@ -162,7 +162,7 @@ class Client
         $payCompleteParameter['id'] = $payConfirmParameter['id'];
         $payCompleteParameter['amount'] = $payConfirmParameter['amount'];
 
-        $requestData = $this->saferpayDataHelper->buildPayCompleteObj($payCompleteParameter['id']);
+        $requestData = $this->saferpayDataHelper->buildTransactionCaptureObject($payCompleteParameter['id']);
 
         $response = $this->sendApiRequest($this->saferpayDataHelper->getTransactionCaptureUrl(), $requestData);
 

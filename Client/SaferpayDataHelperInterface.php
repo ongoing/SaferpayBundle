@@ -10,19 +10,19 @@ interface SaferpayDataHelperInterface
      * @param array $data
      * @return string
      */
-    public function buildPayInitObj(array $data);
+    public function buildPaymentPageInitObject(array $data);
 
     /**
      * @param string $token
      * @return string
      */
-    public function buildPayConfirmObj($token);
+    public function buildPaymentPageAssertObject($token);
 
     /**
      * @param string $transactionId
      * @return string
      */
-    public function buildPayCompleteObj($transactionId);
+    public function buildTransactionCaptureObject($transactionId);
 
     /**
      * @param Response $response
@@ -64,7 +64,7 @@ interface SaferpayDataHelperInterface
     /**
      * @return string
      */
-    public function getPaymentPageAuthorizeUrl();
+    public function getPaymentPageAssertUrl();
 
     /**
      * @return array
