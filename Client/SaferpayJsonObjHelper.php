@@ -177,6 +177,11 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
             )
         );
 
+        //add payer data if accessible
+        if (($payerData = $this->getPayerData($data)) && !empty($payerData)){
+            $jsonData['Payer'] = $payerData;
+        }
+
         if (isset($data['cardrefid'])) {
             switch ($data['cardrefid']){
                 case 'new':
@@ -248,22 +253,16 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
                 'Fail' => $data['faillink'],
                 'Abort' => $data['backlink']
             ),
-            'Payer' => array(
-                'LanguageCode' => $data['languagecode'],
-                'DeliveryAddress' => array(
-                    'FirstName' => $data['firstname'],
-                    'LastName' => $data['lastname'],
-                    'Street' => $data['street'],
-                    'Zip' => $data['zip'],
-                    'City' => $data['city']
-                )
-            ),
             'PaymentMeans' => array(
                 'Alias' => array(
                     'Id' => $data[Client::ALIAS_DATA_KEY]
                 )
             )
         );
+
+        if (($payerData = $this->getPayerData($data)) && !empty($payerData)){
+            $jsonData['Payer'] = $payerData;
+        }
 
         return json_encode($jsonData);
     }
@@ -368,22 +367,44 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
                 'OrderId' => $data['orderid'], // optional
                 'Description' => $data['description']
             ),
-            'Payer' => array(
-                'LanguageCode' => $data['languagecode'],
-                'DeliveryAddress' => array(
-                    'FirstName' => $data['firstname'],
-                    'LastName' => $data['lastname'],
-                    'Street' => $data['street'],
-                    'Zip' => $data['zip'],
-                    'City' => $data['city']
-                )
-            ),
             'PaymentMeans' => array(
                 'Alias' => array('id' => $data['alias'])
             )
         );
 
+        if (($payerData = $this->getPayerData($data)) && !empty($payerData)){
+            $jsonData['Payer'] = $payerData;
+        }
 
         return json_encode($jsonData);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function getPayerData(array $data)
+    {
+        $payerData = [];
+
+        if (isset($data['languagecode'])){
+            $payerData['LanguageCode'] = $data['languagecode'];
+        }
+
+        //ipv4 regex - saferpay only accepts dotted quad notation
+        $ipv4RegexPattern = '/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/';
+        if (isset($data['user_ip']) && preg_match($ipv4RegexPattern, $data['user_ip'])){
+            $payerData['IpAddress'] = $data['user_ip'];
+        }
+
+        //search for address data
+        $addressFields = ['firstname', 'lastname', 'street', 'zip', 'city'];
+        foreach ($addressFields as $field) {
+            if (isset($data[$field])){
+                $payerData['DeliveryAddress'][$field] = $data[$field];
+            }
+        }
+
+        return $payerData;
     }
 }
