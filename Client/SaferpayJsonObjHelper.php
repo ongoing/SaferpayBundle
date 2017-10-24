@@ -398,10 +398,10 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
         }
 
         //search for address data
-        $addressFields = array('firstname', 'lastname', 'street', 'zip', 'city');
-        foreach ($addressFields as $field) {
-            if (isset($data[$field])){
-                $payerData['DeliveryAddress'][$field] = $data[$field];
+        $addressFields = array('firstname' => 'FirstName', 'lastname' => 'LastName', 'street' => 'Street', 'zip' => 'Zip', 'city' => 'City', 'email' => 'Email');
+        foreach ($addressFields as $key => $value) {
+            if (isset($data[$key])){
+                $payerData['BillingAddress'][$value] = $data[$key];
             }
         }
 
