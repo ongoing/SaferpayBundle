@@ -385,7 +385,7 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
      */
     protected function getPayerData(array $data)
     {
-        $payerData = [];
+        $payerData = array();
 
         if (isset($data['languagecode'])){
             $payerData['LanguageCode'] = $data['languagecode'];
@@ -398,7 +398,7 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
         }
 
         //search for address data
-        $addressFields = ['firstname', 'lastname', 'street', 'zip', 'city'];
+        $addressFields = array('firstname', 'lastname', 'street', 'zip', 'city');
         foreach ($addressFields as $field) {
             if (isset($data[$field])){
                 $payerData['DeliveryAddress'][$field] = $data[$field];
