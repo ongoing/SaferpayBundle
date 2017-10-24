@@ -5,7 +5,7 @@ This bundle now uses the new [Saferpay JSON API](http://saferpay.github.io/jsona
 This is a Fork of [valiton SaferpayBundle](https://github.com/valiton/SaferpayBundle). On top of the parent functionalities, 
 it adds the possibility to use the payment process with the [Transaction Interface](http://saferpay.github.io/jsonapi/index.html#ChapterTransaction).
 
-### Install the Bundle
+### Install and enable
 
 Install the bundle with composer:
 
@@ -13,10 +13,8 @@ Install the bundle with composer:
 composer require ongoing/saferpay-bundle
 ```
 
-and activate the bundle in your kernel.
+Activate the bundle in your kernel.
 
-
-### Enable the Bundle
 
 ```php
 <?php
@@ -37,7 +35,20 @@ class AppKernel extends Kernel
 }
 ```
 
-### Configure saferpay_checkout in JMS ChoosePaymentMethodType
+### Example Configuration
+```yaml
+
+ongoing_payment_saferpay:
+    account: 155432-17638731
+    jsonapi_key: JsonApiPwd1_abc
+    jsonapi_pwd: API_234234_234234
+    cardrefid: random_unique
+    authorize_direct: true
+```
+
+
+
+### saferpay_checkout (JMS ChoosePaymentMethodType Form creation)
 
 ```php
 <?php
@@ -62,6 +73,9 @@ class AppKernel extends Kernel
 
 *URLS can be overwritten or set in predefined data, to generate dynamic URLS for Example!*
 
+To additionally send user data with saferpay initialization, following fields could be added under array key `checkout_params`:
+- `firstname`, `lastname`, `street`, `zip`, `languagecode`, `city` and `user_ip`
+
 ### Credit Card Data
 
 On a successful response, creditcard data is saved in extended data of the transaction with keys *token, CARDREFID, CARDMASK, CARDBRAND, CARDVALIDMONTH, CARDVALIDYEAR* (take a look at approve method in the SaferpayPlugin).
@@ -80,8 +94,7 @@ $instrucation->getExtendedData()->set('creditcard_alias', 'validcreditcardalias'
 
 Be aware using Saferpay Transaction with 'authorize_direct', the redirect to a success/failure/error page needs to be implemented manually.
 
-Configuration Reference
------------------------
+### Configuration Reference
 
 Configure the bundle according to your needs, full config example:
 
