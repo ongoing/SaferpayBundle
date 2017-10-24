@@ -383,7 +383,7 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
      * @param array $data
      * @return array
      */
-    private function getPayerData(array $data)
+    protected function getPayerData(array $data)
     {
         $payerData = [];
 
