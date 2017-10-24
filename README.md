@@ -2,7 +2,7 @@
 
 This bundle now uses the new [Saferpay JSON API](http://saferpay.github.io/jsonapi)
 
-It is a Fork of [valiton SaferpayBundle](https://github.com/valiton/SaferpayBundle). On top of the parent functionalities, 
+This is a Fork of [valiton SaferpayBundle](https://github.com/valiton/SaferpayBundle). On top of the parent functionalities, 
 it adds the possibility to use the payment process with the [Transaction Interface](http://saferpay.github.io/jsonapi/index.html#ChapterTransaction).
 
 ### Install the Bundle
@@ -60,11 +60,11 @@ class AppKernel extends Kernel
 }
 ```
 
-*URLS can be overwritten or set in predefined data, for example to generate dynamic URLS*
+*URLS can be overwritten or set in predefined data, to generate dynamic URLS for Example!*
 
 ### Credit Card Data
 
-On a successful response, creditcard data is saved in extended data of the transaction with keys *token, CARDREFID, CARDMASK, CARDBRAND, CARDVALIDMONTH, CARDVALIDYEAR* (take a look at approve method in SaferpayPlugin).
+On a successful response, creditcard data is saved in extended data of the transaction with keys *token, CARDREFID, CARDMASK, CARDBRAND, CARDVALIDMONTH, CARDVALIDYEAR* (take a look at approve method in the SaferpayPlugin).
 
 The generated alias is saved under CARDREFID. The alias could be used to initialize, authorize and capture a transaction in one step. By setting authorize_direct to true or false, additional security step (like 3DS) could be skipped. Be aware of liability reversal.      
 
@@ -78,7 +78,7 @@ $ppc->createPaymentInstruction($instruction = $form->getData());
 $instrucation->getExtendedData()->set('creditcard_alias', 'validcreditcardalias');
 ```
 
-Be aware using Saferpay Transaction with 'authorize_direct', the redirect to success page needs to be implemented manually.
+Be aware using Saferpay Transaction with 'authorize_direct', the redirect to a success/failure/error page needs to be implemented manually.
 
 Configuration Reference
 -----------------------
