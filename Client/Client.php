@@ -121,6 +121,7 @@ class Client
     /**
      * @param array $parameter
      * @param FinancialTransactionInterface $transaction
+     * @return mixed
      */
     public function createAuthorizeDirect(array $parameter, FinancialTransactionInterface $transaction)
     {
@@ -134,10 +135,7 @@ class Client
         $payConfirmParameter['currency'] = $responseData['Transaction']['Amount']['CurrencyCode'];
         $payConfirmParameter['token'] = $transaction->getTrackingId();
         
-        $transaction->setReferenceNumber($payConfirmParameter['id']);
-        $transaction->setProcessedAmount($transaction->getRequestedAmount());
-        $transaction->setResponseCode(PluginInterface::RESPONSE_CODE_SUCCESS);
-        $transaction->setReasonCode(PluginInterface::REASON_CODE_SUCCESS);
+        return $payConfirmParameter;
     }
 
     /**

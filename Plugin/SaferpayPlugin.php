@@ -127,9 +127,22 @@ class SaferpayPlugin extends AbstractPlugin
 
         //check for alias and if an authorize direct should be done (no 2nd secure like 3ds)
         if ($transaction->getExtendedData()->has(Client::ALIAS_DATA_KEY) && $this->authorizeDirect && $transaction->getResponseCode() != PluginInterface::RESPONSE_CODE_SUCCESS){
-            //do direct authorization
-            $payInitParameter['alias'] = $transaction->getExtendedData()->get(Client::ALIAS_DATA_KEY);
-            $this->client->createAuthorizeDirect($payInitParameter, $transaction);
+
+            try {
+                //do direct authorization
+                $payInitParameter['alias'] = $transaction->getExtendedData()->get(Client::ALIAS_DATA_KEY);
+                $payConfirmParameter = $this->client->createAuthorizeDirect($payInitParameter, $transaction);
+                $this->throwUnlessValidPayConfirm($payConfirmParameter, $payInitParameter);
+
+            } catch(\Exception $e) {
+                $this->throwFinancialTransaction($transaction, $e);
+            }
+
+
+            $transaction->setReferenceNumber($payConfirmParameter['id']);
+            $transaction->setProcessedAmount($transaction->getRequestedAmount());
+            $transaction->setResponseCode(PluginInterface::RESPONSE_CODE_SUCCESS);
+            $transaction->setReasonCode(PluginInterface::REASON_CODE_SUCCESS);
             return;
         }
 

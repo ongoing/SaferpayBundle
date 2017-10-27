@@ -368,7 +368,7 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
                 'Description' => $data['description']
             ),
             'PaymentMeans' => array(
-                'Alias' => array('id' => $data['alias'])
+                'Alias' => array('id' => 'somefake alias')
             )
         );
 
