@@ -107,6 +107,44 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
     }
 
     /**
+     * @param array $config - array('success_url' => '...', 'fail_url' => '...')
+     * @return string
+     */
+    public function buildAliasInsertObject(array $config)
+    {
+        if (!isset($config['success_url']) || !isset($config['fail_url'])){
+            throw new \InvalidArgumentException('Please provide success and fail url');
+        }
+
+        $jsonData = json_encode(array(
+            'RequestHeader' => $this->buildRequestHeader(),
+            "RegisterAlias" => array('IdGenerator' => 'RANDOM_UNIQUE'),
+            "Type" => "CARD",
+            "ReturnUrls" => array(
+                "Success" => $config['success_url'],
+                "Fail" => $config['fail_url']
+            ),
+            'Check' => array('Type' => 'Online', 'TerminalId' => $this->authenticationStrategy->getTerminalId())
+        ));
+
+        return $jsonData;
+    }
+
+    /**
+     * @param array $data
+     * @return string
+     */
+    public function buildAliasAssertInsertObject(array $data)
+    {
+        $jsonData = json_encode(array(
+            'RequestHeader' => $this->buildRequestHeader(),
+            "Token" => $data['token']
+        ));
+
+        return $jsonData;
+    }
+
+    /**
      * @param Response $response
      * @return array
      */
@@ -337,6 +375,26 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
     {
         if (isset($this->paymentUrls['payment_page']['assert'])){
             return $this->getApiUrl($this->paymentUrls['payment_page']['assert']);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getAliasInsertUrl()
+    {
+        if (isset($this->paymentUrls['alias']['insert'])){
+            return $this->getApiUrl($this->paymentUrls['alias']['insert']);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getAliasAssertInsertUrl()
+    {
+        if (isset($this->paymentUrls['alias']['assert_insert'])){
+            return $this->getApiUrl($this->paymentUrls['alias']['assert_insert']);
         }
     }
 

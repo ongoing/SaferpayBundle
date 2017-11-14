@@ -37,6 +37,18 @@ interface SaferpayDataHelperInterface
     public function buildTransactionCaptureObject($transactionId);
 
     /**
+     * @param array $config
+     * @return string
+     */
+    public function buildAliasInsertObject(array $config);
+
+    /**
+     * @param array $config
+     * @return string
+     */
+    public function buildAliasAssertInsertObject(array $config);
+
+    /**
      * @param Response $response
      * @return array
      */
@@ -77,6 +89,16 @@ interface SaferpayDataHelperInterface
      * @return string
      */
     public function getPaymentPageAssertUrl();
+
+    /**
+     * @return string
+     */
+    public function getAliasAssertInsertUrl();
+
+    /**
+     * @return string
+     */
+    public function getAliasInsertUrl();
 
     /**
      * @return array
