@@ -83,6 +83,29 @@ class Client
     }
 
     /**
+     * @return array
+     */
+    public function createAliasInsert()
+    {
+        $data = $this->saferpayDataHelper->buildAliasInsertObject(array());
+        $response = $this->sendApiRequest($this->saferpayDataHelper->getAliasInsertUrl(), $data);
+
+        return $this->saferpayDataHelper->getDataFromResponse($response);
+    }
+
+    /**
+     * @param $token
+     * @return array
+     */
+    public function createAliasAssertInsert($token)
+    {
+        $data = $this->saferpayDataHelper->buildAliasAssertInsertObject(array('Token' => $token));
+        $response = $this->sendApiRequest($this->saferpayDataHelper->getAliasAssertInsertUrl(), $data);
+
+        return $this->saferpayDataHelper->getDataFromResponse($response);
+    }
+
+    /**
      * @param array $payInitParameter
      * @param FinancialTransactionInterface $transaction
      * @return mixed

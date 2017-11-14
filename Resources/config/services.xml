@@ -24,6 +24,10 @@
                 <parameter key="capture">/Transaction/Capture</parameter>
                 <parameter key="authorize_direct">/Transaction/AuthorizeDirect</parameter>
             </parameter>
+            <parameter key="alias" type="collection">
+                <parameter key="insert">/Alias/Insert</parameter>
+                <parameter key="assert_insert">/Alias/AssertInsert</parameter>
+            </parameter>
         </parameter>
         <parameter key="ongoing_payment_saferpay.jsonapi.contenttypeheader">application/json; charset=UTF-8</parameter>
         <parameter key="ongoing_payment_saferpay.jsonapi.acceptheader">application/json</parameter>
