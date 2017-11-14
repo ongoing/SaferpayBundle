@@ -83,11 +83,12 @@ class Client
     }
 
     /**
+     * @param array $config
      * @return array
      */
-    public function createAliasInsert()
+    public function createAliasInsert(array $config)
     {
-        $data = $this->saferpayDataHelper->buildAliasInsertObject(array());
+        $data = $this->saferpayDataHelper->buildAliasInsertObject($config);
         $response = $this->sendApiRequest($this->saferpayDataHelper->getAliasInsertUrl(), $data);
 
         return $this->saferpayDataHelper->getDataFromResponse($response);
