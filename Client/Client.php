@@ -100,7 +100,7 @@ class Client
      */
     public function createAliasAssertInsert($token)
     {
-        $data = $this->saferpayDataHelper->buildAliasAssertInsertObject(array('Token' => $token));
+        $data = $this->saferpayDataHelper->buildAliasAssertInsertObject(array('token' => $token));
         $response = $this->sendApiRequest($this->saferpayDataHelper->getAliasAssertInsertUrl(), $data);
 
         return $this->saferpayDataHelper->getDataFromResponse($response);
