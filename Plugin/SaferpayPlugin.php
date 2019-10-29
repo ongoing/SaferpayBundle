@@ -289,6 +289,11 @@ class SaferpayPlugin extends AbstractPlugin
             $cardrefid = $this->cardrefid;
         }
         $payInitParameter['cardrefid'] = $cardrefid;
+
+        if($notifyUrl = $this->getNotifyUrl($data)){
+            $payInitParameter['notifylink'] = $notifyUrl;
+        }
+
         foreach ($checkoutParameters as $field => $value) {
             $payInitParameter[$field] = $value;
         }
@@ -377,6 +382,22 @@ class SaferpayPlugin extends AbstractPlugin
         }
 
         throw new \RuntimeException('You must configure a cancel url.');
+    }
+
+    /**
+     * Get notify url
+     *
+     * @param ExtendedDataInterface $data
+     * @return string|null
+     * @throws \RuntimeException
+     */
+    protected function getNotifyUrl(ExtendedDataInterface $data)
+    {
+        if ($data->has('notify_url')) {
+            return $data->get('notify_url');
+        }
+
+        return null;
     }
 
     /**

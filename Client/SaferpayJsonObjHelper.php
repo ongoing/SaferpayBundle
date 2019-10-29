@@ -233,6 +233,10 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
             }
         }
 
+        if(isset($data['notifylink'])){
+            $jsonData['Notification'] = array('NotifyUrl' => $data['notifylink']);
+        }
+
         return json_encode($jsonData);
     }
 
