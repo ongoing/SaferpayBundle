@@ -9,9 +9,9 @@
 namespace Ongoing\Payment\SaferpayBundle\Client;
 
 
-use Ongoing\Payment\SaferpayBundle\Client\Authentication\JsonAuthenticationStrategy;
-use Guzzle\Http\Message\Response;
 use Faker\Provider\Uuid;
+use GuzzleHttp\Psr7\Response;
+use Ongoing\Payment\SaferpayBundle\Client\Authentication\JsonAuthenticationStrategy;
 
 /**
  * Class SaferpayJsonObjHelper

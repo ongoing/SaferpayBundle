@@ -2,7 +2,7 @@
 
 namespace Ongoing\Payment\SaferpayBundle\Client\Authentication;
 
-use Guzzle\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * TokenAuthenticationStrategy

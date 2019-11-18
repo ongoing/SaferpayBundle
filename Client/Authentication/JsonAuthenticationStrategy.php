@@ -2,8 +2,8 @@
 
 namespace Ongoing\Payment\SaferpayBundle\Client\Authentication;
 
-
-use Guzzle\Http\Message\RequestInterface;
+use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\RequestInterface;
 
 class JsonAuthenticationStrategy implements AuthenticationStrategyInterface
 {
@@ -53,7 +53,7 @@ class JsonAuthenticationStrategy implements AuthenticationStrategyInterface
     public function authenticate(RequestInterface $request = null, array &$data = null, $withPassword = false)
     {
         if ($request) {
-            $request->setAuth($this->apiKey, $this->apiPwd, 'Basic');
+            $request->withAddedHeader(RequestOptions::AUTH, array($this->apiKey, $this->apiPwd));
         }
     }
 

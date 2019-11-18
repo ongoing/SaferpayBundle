@@ -3,11 +3,11 @@
 namespace Ongoing\Payment\SaferpayBundle\Client;
 
 
+use GuzzleHttp\Psr7\Request;
 use JMS\Payment\CoreBundle\Model\ExtendedDataInterface;
 use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
-use JMS\Payment\CoreBundle\Plugin\PluginInterface;
-use Psr\Log\LoggerInterface;
 use Ongoing\Payment\SaferpayBundle\Client\Authentication\AuthenticationStrategyInterface;
+use Psr\Log\LoggerInterface;
 
 
 /**
@@ -267,28 +267,23 @@ class Client
     }
 
     /**
-     * Send api request
-     *
-     * @param string $url
-     * @param string $data
-     * @return \Guzzle\Http\Message\Response
-     * @throws \Exception
+     * @param $url
+     * @param $data
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function sendApiRequest($url, $data)
     {
         $this->getLogger()->debug($url);
         $this->getLogger()->debug($data);
 
-        $client = new \Guzzle\Http\Client();
-        $client->setBaseUrl($url);
-        $client->setDefaultOption('exceptions', false);
+        $client = new \GuzzleHttp\Client();
 
-        $request = $client->post();
-        $request->setHeaders($this->saferpayDataHelper->getNecessaryRequestHeaders());
+        $request = new Request('POST', $url, $this->saferpayDataHelper->getNecessaryRequestHeaders(), $data);
+
         $this->authenticationStrategy->authenticate($request);
-        $request->setBody($data);
 
-        $response = $request->send();
+        $response = $client->send($request);
 
         $this->getLogger()->debug((string) $response->getBody());
 

@@ -2,7 +2,7 @@
 
 namespace Ongoing\Payment\SaferpayBundle\Client;
 
-use Guzzle\Http\Message\Response;
+use GuzzleHttp\Psr7\Response;
 
 interface SaferpayDataHelperInterface
 {
