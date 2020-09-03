@@ -5,7 +5,6 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="ongoing_payment_saferpay.authentication_strategy.token.class">Ongoing\Payment\SaferpayBundle\Client\Authentication\TokenAuthenticationStrategy</parameter>
         <parameter key="ongoing_payment_saferpay.authentication_strategy.json.class">Ongoing\Payment\SaferpayBundle\Client\Authentication\JsonAuthenticationStrategy</parameter>
         <parameter key="ongoing_payment_saferpay.client.class">Ongoing\Payment\SaferpayBundle\Client\Client</parameter>
         <parameter key="ongoing_payment_saferpay.saferpay_plugin.class">Ongoing\Payment\SaferpayBundle\Plugin\SaferpayPlugin</parameter>

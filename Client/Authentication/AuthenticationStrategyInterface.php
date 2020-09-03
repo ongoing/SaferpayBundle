@@ -2,6 +2,7 @@
 
 namespace Ongoing\Payment\SaferpayBundle\Client\Authentication;
 
+use GuzzleHttp\Client;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -13,12 +14,11 @@ use Psr\Http\Message\RequestInterface;
 interface AuthenticationStrategyInterface
 {
     /**
-     * Add authentication fields
+     * Send request with custom authentication
      *
-     * @param RequestInterface $request
-     * @param array $data
-     * @param bool $withPassword
-     * @return void
+     * @param Client $client
+     * @param RequestInterface|null $request
+     * @return mixed|\Psr\Http\Message\ResponseInterface
      */
-    public function authenticate(RequestInterface $request = null, array &$data = null, $withPassword = false);
+    public function sendAuthenticated(Client $client, RequestInterface $request = null);
 }

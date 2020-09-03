@@ -281,9 +281,7 @@ class Client
 
         $request = new Request('POST', $url, $this->saferpayDataHelper->getNecessaryRequestHeaders(), $data);
 
-        $this->authenticationStrategy->authenticate($request);
-
-        $response = $client->send($request);
+        $response = $this->authenticationStrategy->sendAuthenticated($client, $request);
 
         $this->getLogger()->debug((string) $response->getBody());
 

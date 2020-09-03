@@ -2,6 +2,7 @@
 
 namespace Ongoing\Payment\SaferpayBundle\Client\Authentication;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\RequestInterface;
 
@@ -46,15 +47,14 @@ class JsonAuthenticationStrategy implements AuthenticationStrategyInterface
     }
 
     /**
-     * @param RequestInterface $request
-     * @param array $data
-     * @param bool $withPassword
+     * @param Client $client
+     * @param RequestInterface|null $request
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function authenticate(RequestInterface $request = null, array &$data = null, $withPassword = false)
+    public function sendAuthenticated(Client $client, RequestInterface $request = null)
     {
-        if ($request) {
-            $request->withAddedHeader(RequestOptions::AUTH, array($this->apiKey, $this->apiPwd));
-        }
+        return $client->send($request, [RequestOptions::AUTH => [$this->apiKey, $this->apiPwd]]);
     }
 
     /**
