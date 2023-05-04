@@ -15,6 +15,7 @@ use JMS\Payment\CoreBundle\Plugin\Exception\Action\VisitUrl;
 use JMS\Payment\CoreBundle\Plugin\Exception\ActionRequiredException;
 use Ongoing\Payment\SaferpayBundle\Client\Client;
 use Ongoing\Payment\SaferpayBundle\Utils\SaferpayFormatHelper;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * SaferpayPlugin
@@ -24,9 +25,9 @@ use Ongoing\Payment\SaferpayBundle\Utils\SaferpayFormatHelper;
  */
 class SaferpayPlugin extends AbstractPlugin
 {
-    const PAYMENT_SYSTEM_NAME = 'saferpay_checkout';
+    public const PAYMENT_SYSTEM_NAME = 'saferpay_checkout';
 
-    const SIGNS = '0123456789abcdefghijklmnopqrstuvwxyz';
+    public const SIGNS = '0123456789abcdefghijklmnopqrstuvwxyz';
 
     /**
      * @var Client
@@ -64,9 +65,9 @@ class SaferpayPlugin extends AbstractPlugin
     protected $cardrefidLength;
 
     /**
-     * @var Request
+     * @var RequestStack
      */
-    protected $request;
+    protected $requestStack;
 
     /**
      * @var bool
@@ -422,24 +423,24 @@ class SaferpayPlugin extends AbstractPlugin
     /**
      * get request
      *
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      */
     public function getRequest()
     {
-        if (null == $this->request) {
+        if (null == $this->requestStack) {
             throw new \RuntimeException('Request seems to be null in this context.');
         }
-        return $this->request;
+        return $this->requestStack->getCurrentRequest();
     }
 
     /**
      * set request
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param RequestStack $requestStack
      */
-    public function setRequest($request)
+    public function setRequestStack($requestStack)
     {
-        $this->request = $request;
+        $this->requestStack = $requestStack;
     }
 
 }

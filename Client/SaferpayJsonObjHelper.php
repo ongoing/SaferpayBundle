@@ -21,8 +21,8 @@ use Ongoing\Payment\SaferpayBundle\Client\Authentication\JsonAuthenticationStrat
  */
 class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
 {
-    const SPEC_VERSION = '1.4';
-    const RETRY_INDICATOR = 0;
+    public const SPEC_VERSION = '1.4';
+    public const RETRY_INDICATOR = 0;
 
     /**
      * @var JsonAuthenticationStrategy
