@@ -25,9 +25,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class SaferpayPlugin extends AbstractPlugin
 {
-    const PAYMENT_SYSTEM_NAME = 'saferpay_checkout';
+    public const PAYMENT_SYSTEM_NAME = 'saferpay_checkout';
 
-    const SIGNS = '0123456789abcdefghijklmnopqrstuvwxyz';
+    public const SIGNS = '0123456789abcdefghijklmnopqrstuvwxyz';
 
     /**
      * @var Client

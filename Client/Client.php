@@ -18,17 +18,17 @@ use Psr\Log\LoggerInterface;
  */
 class Client
 {
-    const PAY_INIT_PARAM_DATA = 'DATA';
-    const PAY_INIT_PARAM_SIGNATURE = 'SIGNATURE';
+    public const PAY_INIT_PARAM_DATA = 'DATA';
+    public const PAY_INIT_PARAM_SIGNATURE = 'SIGNATURE';
 
-    const VERIFY_PAY_PARAM_STATUS_OK = 'OK';
-    const VERIFY_PAY_PARAM_STATUS_ERROR = 'ERROR';
+    public const VERIFY_PAY_PARAM_STATUS_OK = 'OK';
+    public const VERIFY_PAY_PARAM_STATUS_ERROR = 'ERROR';
 
-    const PAY_CONFIRM_PARAM_ID = 'ID';
-    const PAY_CONFIRM_PARAM_AMOUNT = 'AMOUNT';
-    const PAY_CONFIRM_PARAM_ACTION = 'ACTION';
+    public const PAY_CONFIRM_PARAM_ID = 'ID';
+    public const PAY_CONFIRM_PARAM_AMOUNT = 'AMOUNT';
+    public const PAY_CONFIRM_PARAM_ACTION = 'ACTION';
 
-    const ALIAS_DATA_KEY = 'creditcard_alias';
+    public const ALIAS_DATA_KEY = 'creditcard_alias';
 
     /**
      * @var AuthenticationStrategyInterface
@@ -149,6 +149,7 @@ class Client
      */
     public function createAuthorizeDirect(array $parameter, FinancialTransactionInterface $transaction)
     {
+        $payConfirmParameter = [];
         $requestData = $this->saferpayDataHelper->buildTransactionAuthorizeDirectObject($parameter);
 
         $response = $this->sendApiRequest($this->saferpayDataHelper->getTransactionAuthorizeDirectUrl(), $requestData);
