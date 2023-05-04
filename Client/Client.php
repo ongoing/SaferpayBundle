@@ -158,7 +158,7 @@ class Client
         $payConfirmParameter['amount'] = $responseData['Transaction']['Amount']['Value'];
         $payConfirmParameter['currency'] = $responseData['Transaction']['Amount']['CurrencyCode'];
         $payConfirmParameter['token'] = $transaction->getTrackingId();
-        
+
         return $payConfirmParameter;
     }
 
