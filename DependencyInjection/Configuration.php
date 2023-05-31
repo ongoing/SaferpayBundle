@@ -17,8 +17,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('ongoing_payment_saferpay')
+        $treeBuilder = new TreeBuilder('ongoing_payment_saferpay');
+        $treeBuilder->getRootNode()
             ->children()
                 ->scalarNode('account')->isRequired()->end()
                 ->scalarNode('jsonapi_key')->isRequired()->end()
