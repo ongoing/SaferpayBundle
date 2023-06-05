@@ -160,7 +160,7 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
     public function tryGetErrorInfoFromResponse(Response $response)
     {
         $errorInfo = "";
-        if (strtolower($response->getContentType()) == strtolower($this->contentTypeHeader))
+        if (strtolower((string) $response->getContentType()) == strtolower($this->contentTypeHeader))
         {
             $responseData = $this->getDataFromResponse($response);
             $errorInfo = 'ErrorName: ' . $responseData['ErrorName'] . ' ErrorMessage: ' . $responseData['ErrorMessage'];
@@ -455,7 +455,7 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
 
         //ipv4 regex - saferpay only accepts dotted quad notation
         $ipv4RegexPattern = '/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/';
-        if (isset($data['user_ip']) && preg_match($ipv4RegexPattern, $data['user_ip'])){
+        if (isset($data['user_ip']) && preg_match($ipv4RegexPattern, (string) $data['user_ip'])){
             $payerData['IpAddress'] = $data['user_ip'];
         }
 
