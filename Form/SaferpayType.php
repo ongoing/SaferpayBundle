@@ -16,7 +16,7 @@ class SaferpayType extends AbstractType
     {
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'saferpay_checkout';
     }
