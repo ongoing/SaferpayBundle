@@ -281,7 +281,7 @@ class SaferpayPlugin extends AbstractPlugin
                 $cardrefid = $this->cardrefidPrefix;
             }
             while (strlen($cardrefid) < $this->cardrefidLength) {
-                $bytes = unpack('C', $random->nextBytes(1));
+                $bytes = unpack('C', (string) $random->nextBytes(1));
                 if ($bytes[1] < strlen(self::SIGNS)) {
                     $cardrefid .= substr(self::SIGNS, $bytes[1], 1);
                 }

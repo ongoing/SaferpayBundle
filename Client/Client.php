@@ -308,7 +308,7 @@ class Client
     /**
      * set logger
      *
-     * @param \Symfony\Component\HttpKernel\Log\LoggerInterface $logger
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function setLogger($logger)
     {

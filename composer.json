@@ -17,14 +17,9 @@
     ],
     "require": {
         "php": ">=7.4",
-        "symfony/framework-bundle": "^2.1|^3.4",
-        "jms/payment-core-bundle": "^1.3",
+        "symfony/framework-bundle": "^5.4",
+        "jms/payment-core-bundle": "*",
         "guzzlehttp/guzzle": "^6.4"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0.x-dev"
-        }
     },
     "autoload": {
         "psr-0": { "Ongoing\\Payment\\SaferpayBundle": "" }
