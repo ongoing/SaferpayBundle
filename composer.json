@@ -15,11 +15,18 @@
             "email": "frederik.trostorf@ongoing.ch"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:ongoing/JMSPaymentCoreBundle.git"
+        }
+    ],
     "require": {
         "php": ">=7.4",
         "symfony/framework-bundle": "^5.4",
-        "jms/payment-core-bundle": "*",
-        "guzzlehttp/guzzle": "^6.4"
+        "jms/payment-core-bundle": "^1.0",
+        "guzzlehttp/guzzle": "^6.4",
+        "fakerphp/faker": "^1.23"
     },
     "autoload": {
         "psr-0": { "Ongoing\\Payment\\SaferpayBundle": "" }
