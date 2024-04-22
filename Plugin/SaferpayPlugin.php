@@ -13,6 +13,7 @@ use JMS\Payment\CoreBundle\Model\PaymentInterface;
 use JMS\Payment\CoreBundle\Plugin\AbstractPlugin;
 use JMS\Payment\CoreBundle\Plugin\Exception\Action\VisitUrl;
 use JMS\Payment\CoreBundle\Plugin\Exception\ActionRequiredException;
+use JMS\Payment\CoreBundle\Plugin\ErrorBuilder;
 use Ongoing\Payment\SaferpayBundle\Client\Client;
 use Ongoing\Payment\SaferpayBundle\Utils\SaferpayFormatHelper;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -112,6 +113,20 @@ class SaferpayPlugin extends AbstractPlugin
     public function processes($paymentSystemName)
     {
         return self::PAYMENT_SYSTEM_NAME === $paymentSystemName;
+    }
+
+    public function checkPaymentInstruction(PaymentInstructionInterface $instruction)
+    {
+        $errorBuilder = new ErrorBuilder();
+        $data = $instruction->getExtendedData();
+
+        if (!$data->get('agbAccepted') && !$data->get('agbAcceptedCrypto')) {
+            $errorBuilder->addGlobalError('checkout.error.accept_tos');
+        }
+
+        if ($errorBuilder->hasErrors()) {
+            throw $errorBuilder->getException();
+        }
     }
 
     /**
