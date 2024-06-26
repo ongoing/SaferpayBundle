@@ -120,10 +120,6 @@ class SaferpayPlugin extends AbstractPlugin
         $errorBuilder = new ErrorBuilder();
         $data = $instruction->getExtendedData();
 
-        if (!$data->get('agbAccepted') && !$data->get('agbAcceptedCrypto')) {
-            $errorBuilder->addGlobalError('checkout.error.accept_tos');
-        }
-
         if ($errorBuilder->hasErrors()) {
             throw $errorBuilder->getException();
         }
