@@ -212,7 +212,9 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
                 'Success' => $data['successlink'],
                 'Fail' => $data['faillink'],
                 'Abort' => $data['backlink'] // optional
-            )
+            ),
+
+            'PaymentMethods' => $data['payment_methods'],
         );
 
         //add payer data if accessible

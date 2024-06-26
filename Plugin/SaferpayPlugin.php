@@ -280,6 +280,9 @@ class SaferpayPlugin extends AbstractPlugin
         $paymentInstruction = $payment->getPaymentInstruction();
 
         $payInitParameter = array();
+        $payInitParameter['payment_methods'] = $paymentInstruction->getExtendedData()->has('payment_processor')
+            ? $paymentInstruction->getExtendedData()->get('payment_processor')
+            : [];
         $payInitParameter['successlink'] = $this->getReturnUrl($data);
         $payInitParameter['backlink'] = $this->getCancelUrl($data);
         $payInitParameter['faillink'] = $this->getErrorUrl($data);
