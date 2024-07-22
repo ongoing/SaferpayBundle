@@ -215,6 +215,7 @@ class SaferpayJsonObjHelper implements SaferpayDataHelperInterface
             ),
 
             'PaymentMethods' => $data['payment_methods'],
+            'Wallets' => $data['wallets'] ?? []
         );
 
         //add payer data if accessible
