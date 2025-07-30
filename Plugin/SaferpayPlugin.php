@@ -27,6 +27,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class SaferpayPlugin extends AbstractPlugin
 {
     public const PAYMENT_SYSTEM_NAME = 'saferpay_checkout';
+    public const PAYMENT_SYSTEM_NAME_CARDS = 'saferpay_checkout_cards';
+    public const PAYMENT_SYSTEM_NAME_TWINT = 'saferpay_checkout_twint';
+    public const PAYMENT_SYSTEM_NAME_POSTFINANCEPAY = 'saferpay_checkout_postfinancepay';
 
     public const SIGNS = '0123456789abcdefghijklmnopqrstuvwxyz';
 
@@ -112,7 +115,12 @@ class SaferpayPlugin extends AbstractPlugin
      */
     public function processes($paymentSystemName)
     {
-        return self::PAYMENT_SYSTEM_NAME === $paymentSystemName;
+        return in_array($paymentSystemName, [
+            self::PAYMENT_SYSTEM_NAME,
+            self::PAYMENT_SYSTEM_NAME_CARDS,
+            self::PAYMENT_SYSTEM_NAME_TWINT,
+            self::PAYMENT_SYSTEM_NAME_POSTFINANCEPAY,
+        ]);
     }
 
     public function checkPaymentInstruction(PaymentInstructionInterface $instruction)
